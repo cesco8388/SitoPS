@@ -4,11 +4,14 @@
             <title>Tabella turni</title>
             <meta charset="UTF-8">
             <link href="style.css" rel="StyleSheet">
+            <script src="funzioni.js"></script>
     </head>
-    <body>
-        <button></button>
-        <table id=tabellaTurni class="tabella">
+    <body onload="caricamentoPagina();">
+        <button onclick="mostraDati();">carica turni del MESE</button>
+        <button onclick="provaajax();">CVS</button>
+        <table id="tabellaTurni" class="tabella">
             <tr id="intestazione">
+                    <th>Data</th>
                     <th>Bianco Mattino</th>
                     <th>Bianco Pomeriggio</th>
                     <th>Rosso Mattino</th>
@@ -16,14 +19,7 @@
                     <th>Notte</th>
                     <th>Notte</th>
             </tr>
-            <tr id="1">
-                <td id="BM1"></td>
-                <td id="BP1"></td>
-                <td id="RM1"></td>
-                <td id="RP1"></td>
-                <td id="NB1"></td>
-                <td id="NR1"></td>
-            </tr>
+
         </table>
     </body>
 </html>
