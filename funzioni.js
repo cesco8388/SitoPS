@@ -5,17 +5,21 @@ var dati= [];
 var allRows ="";
 var parole = [];
 
+function inserisciCambio() {
+    var stringaData = "1";
+    var stringaTipoTurno = "BM";
+    var stringaOperatore = "nuovo";
+    var stringaCambio = stringaData + ";" + stringaOperatore + ";" + stringaTipoTurno + "\r";
+    
+}
+
 //Funzione che carica i nomi degli operatori nella tabella
 function mostraDati(){
     var inizioOra = new Date();
     for(i=0; i < dati.length; i++) {
         var idTurno = dati[i].TipoTurno.toString() + dati[i].DataTurno.toString();
-        console.log("*"+idTurno+"*");
         var elementoTHML = document.getElementById(idTurno);
-        //console.log(elementoTHML.id);
-        //if(elementoTHML.innerHTML === ""){
-            elementoTHML.innerHTML = dati[i].OperatoreTurno;
-        //}
+        elementoTHML.innerHTML = dati[i].OperatoreTurno;
     }
     var fineOra = new Date();
     console.log("ora inizio: " + inizioOra);
@@ -26,6 +30,7 @@ function mostraDati(){
 function caricamentoPagina() {
     caricamentoDati();
     creazioneRighe(giorniDelMese());
+    mostraDati();
 }
 
 //Funzione che restituisce il numero di giorni presenti nel mese corrente
@@ -117,53 +122,28 @@ function creazioneRighe(giorniDelMese) {
 //Funzione che carica i dati all'interno della lista
 function caricamentoDati()
 {
-    /*parole.push("1");
-    parole.push("BM");
-    parole.push("treter");
-    dati.push(new Turno(parole[0].toString(), parole[1].toString(), parole[2].toString()));*/
+    letturaFileCVS();
 
+    //console.log(parole.length-1);
 
-    /*
-    dati.push(new Turno("1", "BM", "biancoMattino"));
-    dati.push(new Turno(1, "BP", "biancoPomeriggio"));
-    dati.push(new Turno(1, "RM", "rossoMattino"));
-    dati.push(new Turno(1, "RP", "rossoPomeriggio"));
-    dati.push(new Turno(1, "BN", "biancoNotte"));
-    dati.push(new Turno(1, "RN", "rossoNotte"));
-
-    dati.push(new Turno(2, "BM", "biancoMattino22"));
-    dati.push(new Turno(2, "BP", "biancoPomeriggio"));
-    dati.push(new Turno(2, "RM", "rossoMattino"));
-    dati.push(new Turno(2, "RP", "rossoPomeriggio"));
-    dati.push(new Turno(2, "BN", "biancoNotte"));
-    dati.push(new Turno(2, "RN", "rossoNotte"));
-    */
-
-    provaajax();
-//console.log(parole[0].toString());
-
-  
     var i;
-    for(i = 0; i <= 120; i=i+3) {
+    for(i = 0; i <= (parole.length-1); i=i+3) {
         dati.push(new Turno(parole[i].toString(), parole[i+2].toString(), parole[i+1].toString()));
-        //console.log(parole[i]);
     }
-    console.log(dati[1].TipoTurno +" " + dati[1].DataTurno + " " + dati[1].OperatoreTurno);
-    
 }
 
-function provaajax() {
+function letturaFileCVS() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-        myFunction(this);
+            conversioneCVSinParole(this);
         }
       };
     xhttp.open("GET", "dati.csv", false);
     xhttp.send();
 }
 
-function myFunction(CVS) {
+function conversioneCVSinParole(CVS) {
     allRows = CVS.response;
 
     var i = 0;
@@ -171,15 +151,16 @@ function myFunction(CVS) {
 
     while(i <= allRows.length ) {
         
-        if(!(allRows[i]!==";" && allRows[i]!=='\n')) {
+        if(!(allRows[i]!==";" && (allRows[i]!=='\n'))) {
             parole.push(parola);
-            //console.log(parola);
             parola ="";
             i++
             continue;
         }
 
-        parola += allRows[i];
+        if(allRows[i]!=='\n' && allRows[i]!=='\r') {
+            parola += allRows[i];
+        }
         i++;
     }
     
