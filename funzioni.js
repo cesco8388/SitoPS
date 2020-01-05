@@ -1,7 +1,7 @@
 var dati= [];
-var dataTurno = [];
-var tipoTurno = [];
-var operatoreTurno = [];
+// var dataTurno = [];
+// var tipoTurno = [];
+// var operatoreTurno = [];
 var allRows ="";
 var parole = [];
 
@@ -9,9 +9,10 @@ var parole = [];
 function mostraDati(){
     var inizioOra = new Date();
     for(i=0; i < dati.length; i++) {
-        var idTurno = dati[i].TipoTurno + dati[i].DataTurno;
-        //console.log(idTurno);
+        var idTurno = dati[i].TipoTurno.toString() + dati[i].DataTurno.toString();
+        console.log("*"+idTurno+"*");
         var elementoTHML = document.getElementById(idTurno);
+        //console.log(elementoTHML.id);
         //if(elementoTHML.innerHTML === ""){
             elementoTHML.innerHTML = dati[i].OperatoreTurno;
         //}
@@ -80,26 +81,26 @@ function creazioneRighe(giorniDelMese) {
         riga.id = i.toString();
 
         var cellaData = document.createElement("td");
-        cellaData.id="Data" + i;
+        cellaData.id="Data" + i.toString();
         cellaData.innerHTML = i.toString();
 
         var cellaBM = document.createElement("td");
-        cellaBM.id="BM" + i;
+        cellaBM.id="BM" + i.toString();
 
         var cellaBP = document.createElement("td");
-        cellaBP.id="BP" + i;
+        cellaBP.id="BP" + i.toString();
 
         var cellaRM = document.createElement("td");
-        cellaRM.id="RM" + i;
+        cellaRM.id="RM" + i.toString();
 
         var cellaRP = document.createElement("td");
-        cellaRP.id="RP" + i;
+        cellaRP.id="RP" + i.toString();
 
         var cellaBN = document.createElement("td");
-        cellaBN.id="BN" + i;
+        cellaBN.id="BN" + i.toString();
 
         var cellaRN = document.createElement("td");
-        cellaRN.id="RN" + i;
+        cellaRN.id="RN" + i.toString();
 
         riga.appendChild(cellaData);
         riga.appendChild(cellaBM);
@@ -116,19 +117,39 @@ function creazioneRighe(giorniDelMese) {
 //Funzione che carica i dati all'interno della lista
 function caricamentoDati()
 {
-    dati.push(new Turno(1, "BM", "biancoMattino"));
+    /*parole.push("1");
+    parole.push("BM");
+    parole.push("treter");
+    dati.push(new Turno(parole[0].toString(), parole[1].toString(), parole[2].toString()));*/
+
+
+    /*
+    dati.push(new Turno("1", "BM", "biancoMattino"));
     dati.push(new Turno(1, "BP", "biancoPomeriggio"));
     dati.push(new Turno(1, "RM", "rossoMattino"));
     dati.push(new Turno(1, "RP", "rossoPomeriggio"));
     dati.push(new Turno(1, "BN", "biancoNotte"));
     dati.push(new Turno(1, "RN", "rossoNotte"));
 
-    dati.push(new Turno(1, "BM", "biancoMattino22"));
+    dati.push(new Turno(2, "BM", "biancoMattino22"));
     dati.push(new Turno(2, "BP", "biancoPomeriggio"));
     dati.push(new Turno(2, "RM", "rossoMattino"));
     dati.push(new Turno(2, "RP", "rossoPomeriggio"));
     dati.push(new Turno(2, "BN", "biancoNotte"));
     dati.push(new Turno(2, "RN", "rossoNotte"));
+    */
+
+    provaajax();
+//console.log(parole[0].toString());
+
+  
+    var i;
+    for(i = 0; i <= 120; i=i+3) {
+        dati.push(new Turno(parole[i].toString(), parole[i+2].toString(), parole[i+1].toString()));
+        //console.log(parole[i]);
+    }
+    console.log(dati[1].TipoTurno +" " + dati[1].DataTurno + " " + dati[1].OperatoreTurno);
+    
 }
 
 function provaajax() {
@@ -138,7 +159,7 @@ function provaajax() {
         myFunction(this);
         }
       };
-    xhttp.open("GET", "dati.csv", true);
+    xhttp.open("GET", "dati.csv", false);
     xhttp.send();
 }
 
@@ -146,18 +167,19 @@ function myFunction(CVS) {
     allRows = CVS.response;
 
     var i = 0;
+    var parola = "";
 
     while(i <= allRows.length ) {
-        var conteggiaParole = 0;
-        var parola = "";
-        while(allRows[i]!==";" && allRows[i]!=='\n') {
-            parola += allRows[i];
+        
+        if(!(allRows[i]!==";" && allRows[i]!=='\n')) {
+            parole.push(parola);
+            //console.log(parola);
+            parola ="";
             i++
+            continue;
         }
 
-        parole[conteggiaParole] = parola;
-        conteggiaParole++;
-        //console.log(parola);
+        parola += allRows[i];
         i++;
     }
     
