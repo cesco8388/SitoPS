@@ -127,7 +127,10 @@ function caricamentoDati()
     //console.log(parole.length-1);
 
     var i;
-    for(i = 0; i <= (parole.length-1); i=i+3) {
+    for(i = 0; i <= (parole.length-3); i=i+3) {
+        // console.log(parole[i]);
+        // console.log(parole[i+2]);
+        // console.log(parole[i+1]);
         dati.push(new Turno(parole[i].toString(), parole[i+2].toString(), parole[i+1].toString()));
     }
 }
